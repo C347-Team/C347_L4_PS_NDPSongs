@@ -18,7 +18,7 @@ public class ShowSongsActivity extends AppCompatActivity {
     ArrayAdapter<Song> aa;
     ArrayList<Song> al;
 
-    private int resultKey = 100;
+    private int requestKey = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class ShowSongsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(ShowSongsActivity.this, ModifySongActivity.class);
                 intent.putExtra("data", al.get(i));
-                startActivityForResult(intent, resultKey);
+                startActivityForResult(intent, requestKey);
             }
         });
     }
@@ -58,7 +58,7 @@ public class ShowSongsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_OK && resultCode == resultKey) {
+        if (requestCode == requestKey && resultCode == RESULT_OK) {
             al.clear();
             al.addAll(getFromDB(false));
             aa.notifyDataSetChanged();
