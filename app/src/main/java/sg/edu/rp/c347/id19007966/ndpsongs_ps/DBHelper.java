@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.collection.ArraySet;
-
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -115,31 +112,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // use this for list without filtering of 5 stars.
     public ArrayList<Song> retrieveAll() {
-        ArrayList<Song> songs = new ArrayList<>();
-
-        String selectQuery = "SELECT " + COLUMN_ID + ", ";
-        selectQuery += COLUMN_TITLE + ", ";
-        selectQuery += COLUMN_STARS + " FROM " + TABLE_SONG;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(0);
-                String title = cursor.getString(1);
-                String singers = cursor.getString(2);
-                int year = cursor.getInt(3);
-                int stars = cursor.getInt(4);
-                Song song = new Song(id, title, singers, year, stars);
-                songs.add(song);
-
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-
-        return songs;
-
+        return retrieveWithConditions(NO_FILTERING_KEY);
     }
 }
 
