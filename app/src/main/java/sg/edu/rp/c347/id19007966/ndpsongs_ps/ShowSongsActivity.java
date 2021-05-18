@@ -25,7 +25,7 @@ public class ShowSongsActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
 
         al = helper.retrieveAll();
-        aa = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, al);
+        aa = new SongAdapter(this, R.layout.row_song, al);
         listView.setAdapter(aa);
 
     }
