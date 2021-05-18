@@ -40,8 +40,8 @@ public class SongAdapter extends ArrayAdapter<Song> {
         textViewYear = rowView.findViewById(R.id.textViewYear);
         textViewSinger = rowView.findViewById(R.id.textViewSinger);
 
-        textViewYear.setInputType(song.getYear());
-        //textViewName.setText(song.getStars());
+        textViewYear.setText("" + song.getYear());
+        textViewName.setText(song.getTitle());
         textViewSinger.setText(song.getSingers());
 
         //Match the UI components with Java variables

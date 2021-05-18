@@ -1,94 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:layout_marginStart="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginRight="5dp"
+    android:gravity="center"
+    android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageViewGrade"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/show_all_songs_with_5_stars" />
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        app:srcCompat="@drawable/ic_library_music" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="year"
+            android:textColor="#4A148C"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewSinger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Singer"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageViewGrade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_library_music" />
-
-        <LinearLayout
+            android:id="@+id/imageView1star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:src="@android:drawable/btn_star_big_off" />
 
-            <TextView
-                android:id="@+id/textViewYear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="year"
-                android:textColor="#FFC107"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textViewName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Name"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textViewSinger"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Singer"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imageView2star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:src="@android:drawable/btn_star_big_off" />
 
-            <ImageView
-                android:id="@+id/imageView1star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star_big_off" />
+        <ImageView
+            android:id="@+id/imageView3star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_star_big_off" />
 
-            <ImageView
-                android:id="@+id/imageView2star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star_big_off" />
+        <ImageView
+            android:id="@+id/imageView4star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_star_big_off" />
 
-            <ImageView
-                android:id="@+id/imageView3star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star_big_off" />
-
-            <ImageView
-                android:id="@+id/imageView4star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star_big_off" />
-
-            <ImageView
-                android:id="@+id/imageView5star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star_big_off" />
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/imageView5star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_star_big_off" />
 
     </LinearLayout>
 
