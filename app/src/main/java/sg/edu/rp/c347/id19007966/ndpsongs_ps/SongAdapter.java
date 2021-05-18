@@ -51,9 +51,6 @@ public class SongAdapter extends ArrayAdapter<Song> {
         iv4 = (ImageView) rowView.findViewById(R.id.imageView4star) ;
         iv5 = (ImageView) rowView.findViewById(R.id.imageView5star) ;
 
-
-        DBHelper db = new DBHelper(context);
-        ArrayList<Song> songs = db.retrieveAll();
         stars = songs.get(position).getStars();
 
         if (stars >= 5) {
