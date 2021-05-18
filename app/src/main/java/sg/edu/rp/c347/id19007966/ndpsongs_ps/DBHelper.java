@@ -26,11 +26,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createStatement = "CREATE TABLE " + TABLE_SONG;
         createStatement += "(";
-        createStatement += COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,";
-        createStatement += COLUMN_TITLE + "TEXT,";
-        createStatement += COLUMN_SINGERS + "TEXT,";
-        createStatement += COLUMN_YEAR + "INTEGER,";
-        createStatement += COLUMN_STARS + "INTEGER";
+        createStatement += COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,";
+        createStatement += COLUMN_TITLE + " TEXT, ";
+        createStatement += COLUMN_SINGERS + " TEXT, ";
+        createStatement += COLUMN_YEAR + " INTEGER, ";
+        createStatement += COLUMN_STARS + " INTEGER";
         createStatement += ")";
 
         db.execSQL(createStatement);
