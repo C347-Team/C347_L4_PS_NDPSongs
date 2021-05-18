@@ -17,7 +17,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_SINGERS = "singers";
     private static final String COLUMN_YEAR = "year";
     private static final String COLUMN_STARS = "stars";
-    private static final int NO_FILTERING_KEY = -999;
+    static final int NO_FILTERING_KEY = -999;
+    static final int NO_YEAR_FILTERING_KEY = -1000;
+    static final String ALL_YEARS_OPTION = "All Years";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -80,18 +82,38 @@ public class DBHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    // use this for list WITH filtering of stars, pass star amount in.
-    public ArrayList<Song> retrieveWithConditions(int filterStars) {
+    public ArrayList<Song> retrieveWithConditions(int filterStars, int filterYear) {
         ArrayList<Song> songs = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] queryingColumns = {COLUMN_ID, COLUMN_TITLE, COLUMN_SINGERS, COLUMN_YEAR, COLUMN_STARS};
-        String condition = COLUMN_STARS + " = ?";
-        String[] args = {"" + filterStars};
-        boolean filter = filterStars != NO_FILTERING_KEY;
-        Cursor cursor = db.query(TABLE_SONG, queryingColumns, filter ? condition : null, filter ? args : null,
-                null, null, null, null);
+        Cursor cursor;
+        if (filterStars == NO_FILTERING_KEY && filterYear == NO_YEAR_FILTERING_KEY) {
+            cursor = db.query(TABLE_SONG, queryingColumns, null, null,
+                    null, null, null, null);
+        }
+        else {
+            boolean fYear = filterYear != NO_YEAR_FILTERING_KEY;
+            boolean fStar = filterStars != NO_FILTERING_KEY;
+            String conditions;
+            String[] args;
+
+            if (fYear && fStar) {
+                conditions = COLUMN_STARS + " = ?" + " AND " + COLUMN_YEAR + " = ?";
+                args = new String[]{"" + filterStars, "" + filterYear};
+            }
+            else if (fYear) {
+                conditions =  COLUMN_YEAR + " = ?";
+                args = new String[]{"" + filterYear};
+            }
+            else {
+                conditions =  COLUMN_STARS + " = ?";
+                args = new String[]{"" + filterStars};
+            }
+            cursor = db.query(TABLE_SONG, queryingColumns, conditions, args,
+                    null, null, null, null);
+        }
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(0);
@@ -109,13 +131,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return songs;
     }
 
-    // use this for list without filtering of 5 stars.
-    public ArrayList<Song> retrieveAll() {
-        return retrieveWithConditions(NO_FILTERING_KEY);
+    // use this for list WITH filtering of stars, pass star amount in.
+    public ArrayList<Song> retrieveWithConditions(int filterStars) {
+        return retrieveWithConditions(filterStars, NO_YEAR_FILTERING_KEY);
     }
 
-    public ArrayList<Integer> retrieveAllYears() {
-        ArrayList<Integer> years = new ArrayList<>();
+    // use this for list without filtering of 5 stars.
+    public ArrayList<Song> retrieveAll() {
+        return retrieveWithConditions(NO_FILTERING_KEY, NO_YEAR_FILTERING_KEY);
+    }
+
+    public ArrayList<String> retrieveAllYears() {
+        ArrayList<String> years = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -125,12 +152,13 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int year = cursor.getInt(0);
-                years.add(year);
+                years.add(year + "");
             }
             while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
+        years.add(0, ALL_YEARS_OPTION);
         return years;
     }
 }

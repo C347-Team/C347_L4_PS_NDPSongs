@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,11 @@ public class ShowSongsActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<Song> aa;
     ArrayList<Song> al;
+    ArrayAdapter<String> yearAdapter;
+    ArrayList<String> yearList;
+    Spinner yearSpinner;
+    String selectedYear = DBHelper.ALL_YEARS_OPTION;
+    boolean show5Stars = false;
 
     private int requestKey = 100;
 
@@ -31,7 +37,32 @@ public class ShowSongsActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         showAll5StarsButton = findViewById(R.id.show5StarButton);
 
-        al = getFromDB(false);
+        yearSpinner = findViewById(R.id.yearSpinner);
+
+        yearList = getYearsFromDB();
+        yearAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, yearList);
+
+        yearSpinner.setAdapter(yearAdapter);
+
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                al.clear();
+                selectedYear = yearList.get(i);
+                al.addAll(getFromDB());
+                aa.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                al.clear();
+                selectedYear = null;
+                al.addAll(getFromDB());
+                aa.notifyDataSetChanged();
+            }
+        });
+
+        al = getFromDB();
         aa = new SongAdapter(this, R.layout.row_song, al);
         listView.setAdapter(aa);
 
@@ -48,21 +79,31 @@ public class ShowSongsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 al.clear();
-                al.addAll(getFromDB(true));
-
+                show5Stars = !show5Stars;
+                al.addAll(getFromDB());
                 aa.notifyDataSetChanged();
             }
         });
     }
 
-    private ArrayList<Song> getFromDB(boolean useStar) {
+    private ArrayList<String> getYearsFromDB() {
+        DBHelper helper = new DBHelper(this);
+        ArrayList<String> years = helper.retrieveAllYears();
+        helper.close();
+
+        return years;
+    }
+
+    private ArrayList<Song> getFromDB() {
         ArrayList<Song> songs;
         DBHelper helper = new DBHelper(this);
-        if (useStar) {
-            songs = helper.retrieveWithConditions(5);
+        int stars = show5Stars ? 5 : DBHelper.NO_FILTERING_KEY;
+
+        if (!selectedYear.equals(DBHelper.ALL_YEARS_OPTION)) {
+            songs = helper.retrieveWithConditions(stars, Integer.parseInt(selectedYear));
         }
         else {
-            songs = helper.retrieveAll();
+            songs = helper.retrieveWithConditions(stars);
         }
         helper.close();
         return songs;
@@ -73,8 +114,11 @@ public class ShowSongsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == requestKey && resultCode == RESULT_OK) {
             al.clear();
-            al.addAll(getFromDB(false));
+            al.addAll(getFromDB());
             aa.notifyDataSetChanged();
+            yearList.clear();
+            yearList.addAll(getYearsFromDB());
+            yearAdapter.notifyDataSetChanged();
         }
     }
 }
