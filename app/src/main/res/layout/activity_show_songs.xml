@@ -7,8 +7,14 @@
     android:orientation="vertical"
     tools:context=".ShowSongsActivity">
 
+    <Button
+        android:id="@+id/show5StarButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_all_songs_with_5_stars" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

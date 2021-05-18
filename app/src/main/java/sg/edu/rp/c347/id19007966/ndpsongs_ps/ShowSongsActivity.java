@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class ShowSongsActivity extends AppCompatActivity {
 
+    Button showAll5StarsButton;
     ListView listView;
     ArrayAdapter<Song> aa;
     ArrayList<Song> al;
@@ -27,6 +29,7 @@ public class ShowSongsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_songs);
 
         listView = findViewById(R.id.listView);
+        showAll5StarsButton = findViewById(R.id.show5StarButton);
 
         al = getFromDB(false);
         aa = new SongAdapter(this, R.layout.row_song, al);
@@ -38,6 +41,16 @@ public class ShowSongsActivity extends AppCompatActivity {
                 Intent intent = new Intent(ShowSongsActivity.this, ModifySongActivity.class);
                 intent.putExtra("data", al.get(i));
                 startActivityForResult(intent, requestKey);
+            }
+        });
+
+        showAll5StarsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                al.clear();
+                al.addAll(getFromDB(true));
+
+                aa.notifyDataSetChanged();
             }
         });
     }
@@ -52,7 +65,7 @@ public class ShowSongsActivity extends AppCompatActivity {
             songs = helper.retrieveAll();
         }
         helper.close();
-        return helper.retrieveAll();
+        return songs;
     }
 
     @Override
