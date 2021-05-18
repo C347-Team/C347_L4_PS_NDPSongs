@@ -92,7 +92,6 @@ public class DBHelper extends SQLiteOpenHelper {
         boolean filter = filterStars != NO_FILTERING_KEY;
         Cursor cursor = db.query(TABLE_SONG, queryingColumns, filter ? condition : null, filter ? args : null,
                 null, null, null, null);
-
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(0);
@@ -113,6 +112,26 @@ public class DBHelper extends SQLiteOpenHelper {
     // use this for list without filtering of 5 stars.
     public ArrayList<Song> retrieveAll() {
         return retrieveWithConditions(NO_FILTERING_KEY);
+    }
+
+    public ArrayList<Integer> retrieveAllYears() {
+        ArrayList<Integer> years = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] queryingColumns = {COLUMN_YEAR};
+        Cursor cursor = db.query(true, TABLE_SONG, queryingColumns, null, null,
+                null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int year = cursor.getInt(0);
+                years.add(year);
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return years;
     }
 }
 
