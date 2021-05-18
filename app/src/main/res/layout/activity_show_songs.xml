@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ShowSongsActivity">
 
     <ListView
-        android:id="@+id/lvSong"
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </LinearLayout>

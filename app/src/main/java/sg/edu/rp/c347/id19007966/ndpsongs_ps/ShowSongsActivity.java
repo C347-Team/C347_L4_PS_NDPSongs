@@ -22,9 +22,9 @@ public class ShowSongsActivity extends AppCompatActivity {
         System.out.println(helper.retrieveAll()); // retrieves all
         System.out.println(helper.retrieveWithConditions(5)); // retrieves only if stars == 5
 
-        listView = findViewById(R.id.);
+        listView = findViewById(R.id.listView);
 
-        al = new ArrayList<>();
+        al = helper.retrieveAll();
         aa = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, al);
         listView.setAdapter(aa);
 
